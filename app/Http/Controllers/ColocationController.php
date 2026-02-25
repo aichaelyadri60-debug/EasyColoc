@@ -15,8 +15,8 @@ class ColocationController extends Controller
      */
     public function index()
     {
-        $colocations =auth()->user()->colocations;
-        return view('Membre.index' ,compact('colocations'));
+        $colocations = auth()->user()->colocations;
+        return view('Membre.index', compact('colocations'));
     }
 
     /**
@@ -33,25 +33,34 @@ class ColocationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' =>'required|string|max:100'
+            'name' => 'required|string|max:100'
         ]);
-        DB::transaction(function () use ($request){
-            $colocation =Colocation::create([
-                'name' =>$request->name
+        $colocationsActive = auth()->user()->colocations()
+            ->where('colocations.is_active', 1)
+            ->wherePivot('status', 'accepted')
+            ->exists();
+        if ($colocationsActive) {
+            return redirect()
+                ->back()
+                ->withErrors(['name' => 'Vous avez deja une colocation active']);
+        }
+        DB::transaction(function () use ($request) {
+            $colocation = Colocation::create([
+                'name' => $request->name
             ]);
             Membership::create([
-            'user_id' => auth()->id(),
-            'colocation_id' => $colocation->id,
-            'joined_at' => now(),
-            'role' => 'owner',
-            'status' => 'accepted',
+                'user_id' => auth()->id(),
+                'colocation_id' => $colocation->id,
+                'joined_at' => now(),
+                'role' => 'owner',
+                'status' => 'accepted',
             ]);
-
         });
-        return redirect()
-        ->route('colocation.index')
-        ->with('success' ,'colocation creer avec success');
 
+
+        return redirect()
+            ->route('colocation.index')
+            ->with('success', 'colocation creer avec success');
     }
 
     /**
@@ -59,7 +68,11 @@ class ColocationController extends Controller
      */
     public function show(Colocation $colocation)
     {
-        return $colocation;
+        $users = $colocation->users;
+        return view('Membre.detail', compact([
+            'colocation',
+            'users'
+        ]));
     }
 
     /**
@@ -67,25 +80,47 @@ class ColocationController extends Controller
      */
     public function edit(Colocation $colocation)
     {
-        return view('colocation.edit' ,compact('colocation'));
+        return view('colocation.edit', compact('colocation'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Colocation $colocation)
-    {
-                
-    }
+    public function update(Request $request, Colocation $colocation) {}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Colocation $colocation)
+
+    public function destroy(Colocation $colocation) {}
+    public function annulercolocation(Colocation $colocation)
     {
-        $colocation->delete();
-        return redirect()
-        ->back()
-        ->with('success' ,'colocation supprime avec success');
+        $user_id = auth()->id();
+        $membership = $colocation->users()
+            ->where('user_id', $user_id)
+            ->first();
+        //    dd($membership->pivot->role);
+
+        if (!$membership) {
+            return back()->with('error', 'Vous n\'etes pas membre');
+        }
+        if ($membership->pivot->role === 'owner') {
+            foreach ($colocation->users as $user) {
+                $colocation->users()->updateExistingPivot($user->id, [
+                    'status' => 'left',
+                    'left_at' => now()
+                ]);
+                $colocation->update([
+                    'is_active' => false
+                ]);
+            }
+        } else {
+
+            $colocation->users()->updateExistingPivot($user_id, [
+                'status' => 'left',
+                'left_at' => now()
+            ]);
+        }
+        return back()->with('success', 'Opération effectuée avec succès.');
     }
 }

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Colocation extends Model
 {
     protected $fillable =[
-        'name'
+        'name',
+        'is_active'
     ];
 
 
@@ -16,7 +17,7 @@ class Colocation extends Model
         return $this->belongsToMany(
             User::class ,'memberships' ,'colocation_id' ,'user_id'
         )
-        ->withPivot('joined_at', 'left_at', 'status', 'token')
+        ->withPivot('joined_at','role', 'left_at', 'status', 'token')
         ->withTimestamps();
     }
 }

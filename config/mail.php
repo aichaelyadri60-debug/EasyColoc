@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env(key:'MAIL_MAILER', default:'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +36,9 @@ return [
     */
 
     'mailers' => [
+        'mailtrap' => [
+            'transport' => 'mailtrap',
+        ],
 
         'smtp' => [
             'transport' => 'smtp',
