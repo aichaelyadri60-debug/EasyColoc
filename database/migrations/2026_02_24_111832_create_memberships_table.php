@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('colocation_id')->constrained()->onDelete('cascade');
+            $table->date('joined_at')->nullable();
+            $table->enum('role' ,['owner' ,'member'])->default('member');
+            $table->date('left_at')->nullable();
+            $table->enum('status' ,['pending' ,'accepted' ,'left'])->default('pending');
+            $table->string('token')->nullable();
             $table->timestamps();
         });
     }

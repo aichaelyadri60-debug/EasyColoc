@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'reputation'
     ];
 
     /**
@@ -51,6 +53,7 @@ class User extends Authenticatable
     public function colocations(){
         return $this->belongsToMany(
             Colocation::class,'memberships' ,'user_id' ,'colocation_id'
-        )->withTimestamps();
+        )->withPivot('joined_at', 'left_at', 'status', 'token')
+        ->withTimestamps();
     }
 }

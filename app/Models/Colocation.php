@@ -15,6 +15,8 @@ class Colocation extends Model
     public function users(){
         return $this->belongsToMany(
             User::class ,'memberships' ,'colocation_id' ,'user_id'
-        )->withTimestamps();
+        )
+        ->withPivot('joined_at', 'left_at', 'status', 'token')
+        ->withTimestamps();
     }
 }

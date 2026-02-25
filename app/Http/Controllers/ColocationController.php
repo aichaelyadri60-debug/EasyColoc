@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Colocation;
+use App\Models\Membership;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ColocationController extends Controller
 {
@@ -12,7 +15,8 @@ class ColocationController extends Controller
      */
     public function index()
     {
-        //
+        $colocations =auth()->user()->colocations;
+        return view('Membre.index' ,compact('colocations'));
     }
 
     /**
@@ -20,7 +24,7 @@ class ColocationController extends Controller
      */
     public function create()
     {
-        return view('colocation.create');
+        return view('Membre.create');
     }
 
     /**
@@ -31,11 +35,21 @@ class ColocationController extends Controller
         $request->validate([
             'name' =>'required|string|max:100'
         ]);
-        Colocation::create([
-            'name' =>$request->name
-        ]);
+        DB::transaction(function () use ($request){
+            $colocation =Colocation::create([
+                'name' =>$request->name
+            ]);
+            Membership::create([
+            'user_id' => auth()->id(),
+            'colocation_id' => $colocation->id,
+            'joined_at' => now(),
+            'role' => 'owner',
+            'status' => 'accepted',
+            ]);
+
+        });
         return redirect()
-        ->back()
+        ->route('colocation.index')
         ->with('success' ,'colocation creer avec success');
 
     }

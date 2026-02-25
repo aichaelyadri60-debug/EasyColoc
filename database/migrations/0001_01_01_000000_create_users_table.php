@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('Reputation');
-            $table->enum('Role' ,['admin' ,'membre']);
+            $table->integer('Reputation')->default(0);
+            $table->enum('Role' ,['admin' ,'membre'])->default('membre');
+            $table->boolean('is_banned')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
