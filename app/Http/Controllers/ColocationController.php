@@ -30,11 +30,9 @@ class ColocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreColocRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100'
-        ]);
+        $validated =$request->validated();
         $colocationsActive = auth()->user()->colocations()
             ->where('colocations.is_active', 1)
             ->wherePivot('status', 'accepted')
@@ -46,7 +44,7 @@ class ColocationController extends Controller
         }
         DB::transaction(function () use ($request) {
             $colocation = Colocation::create([
-                'name' => $request->name
+                'name' => $validated['name']
             ]);
             Membership::create([
                 'user_id' => auth()->id(),
