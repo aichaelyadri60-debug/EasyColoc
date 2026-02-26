@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes colocations</title>
-</head>
-
-<body>
-
-    @include('layouts.navigation')
+@extends('layouts.app')
+$section('content')
     <h1>Mes colocations</h1>
 
     <a href="{{route('colocation.create')}}">
@@ -41,6 +32,8 @@
     <p>Aucune colocation trouvée.</p>
     @endforelse
 
-</body>
 
-</html>
+
+
+
+@endsection

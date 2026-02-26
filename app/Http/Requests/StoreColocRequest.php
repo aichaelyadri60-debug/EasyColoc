@@ -11,7 +11,7 @@ class StoreColocRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,15 +22,19 @@ class StoreColocRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' =>'required|string|min:3|max:50'
+            'name'     =>'required|string|min:3|max:50',
+            'address'  =>'required|string|min:3|max:100',
+            'description'   =>'nullable|string|max:250'
         ];
     }
 
 
-    public function message():array{
+    public function messages():array{
         return [
             'name.required' =>'le nom et obligatoire',
-            'name.string'   =>'le nom doit etre string'
+            'name.string'   =>'le nom doit etre string',         
+            'address.required' =>'l\'address et obligatoire',
+            'address.string'   =>'l\'address doit etre string'
         ];
     }
 }

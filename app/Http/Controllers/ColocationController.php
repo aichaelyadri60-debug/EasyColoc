@@ -44,7 +44,9 @@ class ColocationController extends Controller
         }
         DB::transaction(function () use ($request) {
             $colocation = Colocation::create([
-                'name' => $validated['name']
+                'name' => $validated['name'],
+                'address'   =>$validated['address'],
+                'description'  =>$validated['description']
             ]);
             Membership::create([
                 'user_id' => auth()->id(),
