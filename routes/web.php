@@ -29,4 +29,5 @@ Route::middleware('auth')->group(function () {
 
 
 Route::post('/addMembre/{colocation}',[UserController::class, 'addMembre'])->name('addMembre');
+Route::get('/accept-invitation/{token}' ,[UserController::class ,'acceptInvitation'])->name('acceptInvitation');
 require __DIR__ . '/auth.php';

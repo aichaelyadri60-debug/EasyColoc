@@ -8,6 +8,30 @@
 </head>
 
 <body>
+{{-- Messages succès --}}
+@if(session('success'))
+    <div style="color: green; border:1px solid green; padding:10px;">
+        {{ session('success') }}
+    </div>
+@endif
+
+{{-- Messages erreur simples --}}
+@if(session('error'))
+    <div style="color: red; border:1px solid red; padding:10px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+{{-- Erreurs validation --}}
+@if($errors->any())
+    <div style="color: red; border:1px solid red; padding:10px;">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <form action="{{ route('addMembre' ,$colocation->id) }}" method="POST">
         @csrf
         <input type="email" name="email" placeholder="Entrer email d'un membre" required>

@@ -10,7 +10,7 @@
 
     <p>Vous avez été invité à rejoindre une colocation.</p>
 
-    <a href="{{ url('/accept-invitation/'.$token) }}">
+    <a href="{{ route('acceptInvitation', $token) }}">
         Cliquer ici pour accepter
     </a>  
 </body>

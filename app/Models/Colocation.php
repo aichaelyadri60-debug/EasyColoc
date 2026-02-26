@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\User ;
+use App\Models\Categories ;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,9 @@ class Colocation extends Model
         )
         ->withPivot('joined_at','role', 'left_at', 'status', 'token')
         ->withTimestamps();
+    }
+
+    public function Categories(){
+        return $this->belongsTo(Categories::class);
     }
 }
