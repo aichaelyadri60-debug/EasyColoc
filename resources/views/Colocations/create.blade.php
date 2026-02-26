@@ -1,58 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h4>Créer une nouvelle colocation</h4>
-            </div>
+@section('content')
 
-            <div class="card-body">
+<div class="max-w-xl mx-auto px-4 py-10">
 
-
-                @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                <form action="{{ route('colocation.store') }}" method="POST">
-                    @csrf
-
-                    <div class="mb-3">
-                        <label class="form-label">Nom de la colocation</label>
-                        <input type="text"
-                            name="name"
-                            class="form-control"
-                            value="{{ old('name') }}"
-                            required>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">
-                        Créer
-                    </button>
-
-                    <a href="{{ route('colocation.index') }}" class="btn btn-secondary">
-                        Annuler
-                    </a>
-                </form>
-            </div>
-        </div>
+    {{-- ── Titre ───────────────────────────────────────────────── --}}
+    <div class="mb-6">
+        <a href="{{ route('colocation.index') }}"
+           class="inline-flex items-center gap-1.5 text-xs font-medium text-slate-400
+                  hover:text-violet-500 transition mb-3">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+            </svg>
+            Retour aux colocations
+        </a>
+        <p class="text-xs font-semibold tracking-widest text-violet-400 uppercase mb-1">Nouvelle</p>
+        <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Créer une colocation</h1>
+        <p class="text-slate-400 text-sm mt-1">Renseignez les informations de votre nouvelle colocation</p>
     </div>
-</body>
-<script>
-    setTimeout(()=>{
-        document.querySelector('.alert-danger').style.display ='none';
-    },3000)
-</script>
 
-</html>
+    {{-- ── Card formulaire ─────────────────────────────────────── --}}
+    <div class="bg-white rounded-2xl border border-violet-100 shadow-sm overflow-hidden">
+
+        <div class="h-1.5 bg-gradient-to-r from-violet-400 to-pink-400"></div>
+
+        <form action="{{ route('colocation.store') }}" method="POST" class="p-8 space-y-5">
+            @csrf
+
+            {{-- Nom --}}
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-1.5">
+                    Nom de la colocation
+                </label>
+                <input type="text" name="name" value="{{ old('name') }}" required
+                       placeholder="Ex : Appartement Montmartre"
+                       class="w-full px-4 py-2.5 rounded-xl border border-violet-200 bg-violet-50/50
+                              text-slate-800 text-sm placeholder-slate-300
+                              focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400
+                              focus:bg-white transition"/>
+                @error('name')
+                    <p class="mt-1.5 text-xs text-rose-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Adresse --}}
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-1.5">
+                    Adresse
+                </label>
+                <input type="text" name="address" value="{{ old('address') }}" required
+                       placeholder="Ex : 12 rue de la Paix, Paris"
+                       class="w-full px-4 py-2.5 rounded-xl border border-violet-200 bg-violet-50/50
+                              text-slate-800 text-sm placeholder-slate-300
+                              focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400
+                              focus:bg-white transition"/>
+                @error('address')
+                    <p class="mt-1.5 text-xs text-rose-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Description --}}
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-1.5">
+                    Description
+                </label>
+                <textarea name="description" rows="3" required
+                          placeholder="Décrivez votre colocation..."
+                          class="w-full px-4 py-2.5 rounded-xl border border-violet-200 bg-violet-50/50
+                                 text-slate-800 text-sm placeholder-slate-300 resize-none
+                                 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400
+                                 focus:bg-white transition">{{ old('description') }}</textarea>
+                @error('description')
+                    <p class="mt-1.5 text-xs text-rose-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Actions --}}
+            <div class="flex items-center gap-3 pt-2">
+                <button type="submit"
+                        class="flex items-center gap-2 px-6 py-2.5 rounded-xl
+                               bg-gradient-to-r from-violet-500 to-pink-500 text-white text-sm font-semibold
+                               shadow-md shadow-violet-200 hover:from-violet-600 hover:to-pink-600
+                               hover:shadow-violet-300 active:scale-95 transition-all duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    Créer la colocation
+                </button>
+
+                <a href="{{ route('colocation.index') }}"
+                   class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-500 text-sm font-medium
+                          hover:bg-slate-50 active:scale-95 transition-all duration-200">
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@endsection

@@ -16,7 +16,7 @@ class ColocationController extends Controller
     public function index()
     {
         $colocations = auth()->user()->colocations;
-        return view('Membre.index', compact('colocations'));
+        return view('colocations.index', compact('colocations'));
     }
 
     /**
@@ -24,7 +24,7 @@ class ColocationController extends Controller
      */
     public function create()
     {
-        return view('Membre.create');
+        return view('colocations.create');
     }
 
     /**
@@ -69,7 +69,7 @@ class ColocationController extends Controller
     public function show(Colocation $colocation)
     {
         $users = $colocation->users;
-        return view('Membre.detail', compact([
+        return view('colocations.detail', compact([
             'colocation',
             'users'
         ]));
