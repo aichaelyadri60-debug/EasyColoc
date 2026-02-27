@@ -63,12 +63,12 @@
                 </label>
                 <input type="number"
                        step="0.01"
-                       name="amount"
-                       value="{{ old('amount') }}"
+                       name="montant"
+                       value="{{ old('montant') }}"
                        class="w-full rounded-xl border-slate-200 focus:border-violet-400 focus:ring-violet-400 text-sm"
                        required>
 
-                @error('amount')
+                @error('montant')
                     <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
@@ -83,7 +83,6 @@
                           class="w-full rounded-xl border-slate-200 focus:border-violet-400 focus:ring-violet-400 text-sm">{{ old('description') }}</textarea>
             </div>
 
-            {{-- Bouton --}}
             <div class="pt-2">
                 <button type="submit"
                         class="w-full px-4 py-2 rounded-xl
