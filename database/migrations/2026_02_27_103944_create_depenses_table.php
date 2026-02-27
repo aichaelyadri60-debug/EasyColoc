@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->decimal('montant',8,2);
+            $table->foreignId('categorie_id')->onCascade()->onDelete('cascade');
+            $table->foreignId('user_id')->onCascade()->onDelete('cascade');
             $table->timestamps();
         });
     }
