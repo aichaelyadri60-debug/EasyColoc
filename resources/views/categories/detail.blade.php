@@ -2,6 +2,15 @@
 
 @section('content')
 
+{{-- @php
+    $role = $colocation->users
+        ->where('id', auth()->id())
+        ->first()
+        ?->pivot
+        ?->role;
+
+    $total = $depenses->sum('amount');
+@endphp --}}
 
 <div class="max-w-3xl mx-auto px-4 py-10 space-y-6">
 
@@ -31,7 +40,6 @@
             </div>
 
             {{-- Bouton ajouter dépense (owner uniquement) --}}
-
                 <a href=""
                    class="px-4 py-2 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500
                           text-white text-xs font-semibold shadow-md shadow-violet-200
@@ -39,7 +47,6 @@
                           active:scale-95 transition-all duration-200">
                     + Ajouter dépense
                 </a>
-
 
         </div>
     </div>
@@ -75,15 +82,15 @@
 
             </div>
 
-        @empty --}}
+
 
             <div class="px-6 py-10 text-center">
                 <p class="text-slate-400 text-sm">
                     Aucune dépense pour cette catégorie.
                 </p>
-            </div>
+            </div> --}}
 
-
+        {{-- @endforelse --}}
 
     </div>
 
