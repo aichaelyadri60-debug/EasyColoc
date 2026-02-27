@@ -42,9 +42,11 @@ class CategorieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Colocation $colocation ,Categorie $categorie )
+    public function show(Colocation $colocation ,Categorie $category )
     {
-        return view('categories.detail' ,compact('categorie' ,'colocation'));
+        $depenses =$category->depense()
+        ->orderBy('created_at' ,'desc')->get();
+        return view('categories.detail' ,compact('category' ,'colocation','depenses'));
     }
 
     /**

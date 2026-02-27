@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\DepenseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -53,5 +54,13 @@ Route::prefix('colocation/{colocation}')->group(function () {
 
     Route::delete('categories/{category}', [CategorieController::class, 'destroy'])
         ->name('categories.destroy');
+    Route::prefix('categories/{category}')->group(function(){
+        Route::get('depenses/create', [DepenseController::class, 'create'])
+        ->name('depenses.create');
+        Route::post('depenses', [DepenseController::class, 'store'])
+        ->name('depenses.store');
+    });
 
 });
+
+

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Colocation;
 use App\Models\depense;
 use Illuminate\Http\Request;
 
@@ -18,9 +20,9 @@ class DepenseController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Colocation $colocation ,Categorie $category )
     {
-        //
+        return view('depenses.create',compact('colocation','category'));
     }
 
     /**
