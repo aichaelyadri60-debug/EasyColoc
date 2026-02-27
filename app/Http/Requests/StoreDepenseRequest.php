@@ -23,8 +23,8 @@ class StoreDepenseRequest extends FormRequest
     {
         return [
             'title'   => 'required|string|max:50',
-            'montant' => 'required|decimal:0,2',
-            'description'   => 'nullable|max:150'
+            'montant' => 'required|numeric|min:2',
+            'description'   => 'nullable|string|max:150'
         ];
     }
 

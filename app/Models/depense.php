@@ -13,6 +13,9 @@ class Depense extends Model
         'categorie_id',
         'user_id'
     ];
+    protected $casts = [
+        'montant'  =>'decimal:2'
+    ];
 
     public function categories(){
         return $this->belongsTo(Categorie::class );

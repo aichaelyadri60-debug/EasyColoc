@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDepenseRequest;
 use App\Models\Categorie;
 use App\Models\Colocation;
-use App\Models\depense;
+use App\Models\Depense ;
 use Illuminate\Http\Request;
 
 class DepenseController extends Controller
@@ -28,15 +29,34 @@ class DepenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDepenseRequest $request,Colocation $colocation  ,Categorie $category)
     {
-        //
+
+        Depense::create([
+            'title'         =>$request->title,
+            'montant'       =>$request->montant,
+            'description'   =>$request->description
+        ]);
+        $users = $colocation->users;
+        $total =$colocation->users()->count();
+        $montant =$request->montant;
+        $MontantparUtilisateur = $montant / $total ;
+        foreach($users as $user){
+            
+        }
+
+
+
+
+
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(depense $depense)
+    public function show(Depense $depense)
     {
         //
     }
