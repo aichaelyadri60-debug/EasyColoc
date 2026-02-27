@@ -31,12 +31,12 @@ class CategorieController extends Controller
      */
     public function store(StoreCategorieRequest $request ,Colocation $colocation)
     {
-        // $validated =$request->validated();
-        // $colocation->categories()->create([
-        //     'name'  =>$validated['name'],
-        //     'colocation_id'  =>$colocation->id
-        // ]);
-        // return redirect()->back()->with(['success' =>'categorie creer avec success']);
+        $validated =$request->validated();
+        $colocation->categories()->create([
+            'name'  =>$validated['name'],
+            'colocation_id'  =>$colocation->id
+        ]);
+        return redirect()->back()->with(['success' =>'categorie creer avec success']);
     }
 
     /**
