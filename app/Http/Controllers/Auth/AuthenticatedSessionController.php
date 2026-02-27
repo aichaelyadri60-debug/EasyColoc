@@ -29,10 +29,11 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user =Auth::user();
-        if($user->Role ='admin'){
+        // dd($user->Role);
+        if($user->Role === 'admin'){
             return redirect()->route('admin.dashboard');
         }
-        return redirect()->route('Membre.index');
+        return redirect()->route('colocation.index');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categorie;
 use App\Models\Colocation;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreCategorieRequest;
 
 class CategorieController extends Controller
 {
@@ -13,16 +14,16 @@ class CategorieController extends Controller
      */
     public function index(Colocation $colocation)
     {
-        $categories =$colocation->Categories ;
-        return view();
+        // $categories =$colocation->Categories ;
+        // return view();
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Colocation $colocation)
     {
-        return view('categories.create');
+        return view('categories.create' ,compact('colocation'));
     }
 
     /**
@@ -30,20 +31,20 @@ class CategorieController extends Controller
      */
     public function store(StoreCategorieRequest $request ,Colocation $colocation)
     {
-        $validated =$request->validated();
-        Categorie::create([
-            'name'  =>$validated['name'],
-            'colocation_id'  =>$colocation->id
-        ]);
-        return redirect()->back()->with(['success' =>'categorie creer avec success']);
+        // $validated =$request->validated();
+        // $colocation->categories()->create([
+        //     'name'  =>$validated['name'],
+        //     'colocation_id'  =>$colocation->id
+        // ]);
+        // return redirect()->back()->with(['success' =>'categorie creer avec success']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categorie $categorie)
+    public function show(Colocation $colocation ,Categorie $categorie )
     {
-        //
+        return view('categories.detail' ,compact('categorie' ,'colocation'));
     }
 
     /**

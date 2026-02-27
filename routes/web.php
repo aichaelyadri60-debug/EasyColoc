@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ColocationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategorieController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,9 +26,32 @@ Route::middleware('auth')->group(function () {
     Route::put('colocation/{colocation}', [ColocationController::class, 'update'])->name('colocation.update');
     Route::delete('colocation/{colocation}', [ColocationController::class, 'destroy'])->name('colocation.destroy');
     Route::post('annulercolocation/{colocation}', [ColocationController::class, 'annulercolocation'])->name('annulercolocation');
+    Route::post('quittercolocation/{colocation}', [ColocationController::class, 'quittercolocation'])->name('quittercolocation');
 });
 
 
 Route::post('/addMembre/{colocation}',[UserController::class, 'addMembre'])->name('addMembre');
 Route::get('/accept-invitation/{token}' ,[UserController::class ,'acceptInvitation'])->name('acceptInvitation');
 require __DIR__ . '/auth.php';
+
+
+Route::prefix('colocation/{colocation}')->group(function () {
+
+    Route::get('categories/create', [CategorieController::class, 'create'])
+        ->name('categories.create');
+
+    Route::post('categories', [CategorieController::class, 'store'])
+        ->name('categories.store');
+    Route::get('categories/{category}/show', [CategorieController::class, 'show'])
+        ->name('categories.show');
+
+    Route::get('categories/{category}/edit', [CategorieController::class, 'edit'])
+        ->name('categories.edit');
+
+    Route::put('categories/{category}', [CategorieController::class, 'update'])
+        ->name('categories.update');
+
+    Route::delete('categories/{category}', [CategorieController::class, 'destroy'])
+        ->name('categories.destroy');
+
+});

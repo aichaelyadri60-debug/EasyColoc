@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Colocation;
 use App\Models\Membership;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreColocRequest;
 use Illuminate\Support\Facades\DB;
 
 
@@ -69,9 +70,11 @@ class ColocationController extends Controller
     public function show(Colocation $colocation)
     {
         $users = $colocation->users;
+        $categories =$colocation->categories;
         return view('colocations.detail', compact([
             'colocation',
-            'users'
+            'users',
+            'categories'
         ]));
     }
 
@@ -92,7 +95,11 @@ class ColocationController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function destroy(Colocation $colocation) {}
+    public function destroy(Colocation $colocation) {
+
+    }
+
+
     public function annulercolocation(Colocation $colocation)
     {
         $user_id = auth()->id();
@@ -104,8 +111,7 @@ class ColocationController extends Controller
         if (!$membership) {
             return back()->with('error', 'Vous n\'etes pas membre');
         }
-        if ($membership->pivot->role === 'owner') {
-            foreach ($colocation->users as $user) {
+        foreach ($colocation->users as $user) {
                 $colocation->users()->updateExistingPivot($user->id, [
                     'status' => 'left',
                     'left_at' => now()
@@ -114,13 +120,25 @@ class ColocationController extends Controller
                     'is_active' => false
                 ]);
             }
-        } else {
+        return back()->with('success', 'Operation effectue avec succes.');
+    }
 
-            $colocation->users()->updateExistingPivot($user_id, [
+
+    public function quittercolocation(Colocation $colocation){
+        $user_id = auth()->id();
+        $membership = $colocation->users()
+            ->where('user_id', $user_id)
+            ->first();
+
+        if (!$membership) {
+            return back()->with('error', 'Vous n\'etes pas membre');
+        }
+
+        $colocation->users()->updateExistingPivot($user_id, [
                 'status' => 'left',
                 'left_at' => now()
-            ]);
-        }
-        return back()->with('success', 'Opération effectuée avec succès.');
+        ]);
+
+        return back()->with('success', 'Operation effectue avec succes.');
     }
 }

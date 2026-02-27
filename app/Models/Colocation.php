@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use App\Models\User ;
-use App\Models\Categories ;
+use App\Models\Categorie;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +24,7 @@ class Colocation extends Model
         ->withTimestamps();
     }
 
-    public function Categories(){
-        return $this->belongsTo(Categories::class);
+    public function categories(){
+        return $this->hasMany(Categorie::class);
     }
 }

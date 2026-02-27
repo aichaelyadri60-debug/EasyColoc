@@ -1,2 +1,10 @@
 {{ route('addMembre') }}
 {{ route('supprimerMembre', $user->id) }}
+
+
+
+{{ route('categories.create', $colocation->id) }}
+
+{{ route('categories.edit', [$colocation->id, $category->id]) }}
+
+{{ route('categories.destroy', [$colocation->id, $category->id]) }}
