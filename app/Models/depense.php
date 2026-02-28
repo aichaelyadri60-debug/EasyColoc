@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Categorie;
+use App\Models\User;
 
 class Depense extends Model
 {
@@ -19,5 +20,8 @@ class Depense extends Model
 
     public function categories(){
         return $this->belongsTo(Categorie::class );
+    }
+    public function user(){
+        return $this->belongsTo(User::class );
     }
 }

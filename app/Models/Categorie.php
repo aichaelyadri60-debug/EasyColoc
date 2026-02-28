@@ -20,6 +20,6 @@ class Categorie extends Model
 
 
     public function depense(){
-        return $this->belongsTo(Depense::class);
+        return $this->hasMany(Depense::class);
     }
 }

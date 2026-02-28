@@ -2,13 +2,8 @@
 
 @section('content')
     @php
-        // $role = $colocation->users
-        //     ->where('id', auth()->id())
-        //     ->first()
-        //     ?->pivot
-        //     ?->role;
 
-        $total = $depenses->sum('amount');
+        $total = $depenses->sum('montant');
     @endphp
 
     <div class="max-w-3xl mx-auto px-4 py-10 space-y-6">
@@ -80,7 +75,7 @@
                     </div>
 
                     <div class="text-sm font-bold text-rose-500">
-                        - {{ number_format($depense->amount, 2) }} €
+                         {{ number_format($depense->montant, 2) }} €
                     </div>
 
                 </div>

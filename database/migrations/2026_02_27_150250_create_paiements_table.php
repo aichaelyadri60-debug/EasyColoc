@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('montant' ,8,2);
             $table->enum('status',['paid','pending']);
-            $table->foreignId('user_id')->constained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

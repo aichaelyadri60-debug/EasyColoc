@@ -223,7 +223,7 @@
 
                         @if($role === 'owner')
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('categories.show', [$colocation->id, $category->id]) }}"
+                         <a href="{{ route('categories.show', [$colocation->id, $category->id]) }}"
                                    class="px-3 py-1.5 rounded-lg border border-violet-200
                                           text-violet-600 text-xs font-medium bg-violet-50
                                           hover:bg-violet-100 hover:border-violet-300 transition">
@@ -247,6 +247,13 @@
                                     </button>
                                 </form>
                             </div>
+                        @else
+                         <a href="{{ route('categories.show', [$colocation->id, $category->id]) }}"
+                                   class="px-3 py-1.5 rounded-lg border border-violet-200
+                                          text-violet-600 text-xs font-medium bg-violet-50
+                                          hover:bg-violet-100 hover:border-violet-300 transition">
+                                    Detail
+                                </a>
                         @endif
                     </div>
 

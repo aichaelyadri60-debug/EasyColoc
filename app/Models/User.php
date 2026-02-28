@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use App\Models\Colocation;
+use App\Models\Paiement;
+use App\Models\Depense;
 
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -56,4 +58,13 @@ class User extends Authenticatable
         )->withPivot('joined_at','role', 'left_at', 'status', 'token')
         ->withTimestamps();
     }
+
+    public function paiement(){
+        return $this->hasOne(Paiement::class);
+    }
+    public function depense(){
+        return $this->hasMany(Depense::class);
+    }
+
+
 }
