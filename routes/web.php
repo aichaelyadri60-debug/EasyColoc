@@ -28,39 +28,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('colocation/{colocation}', [ColocationController::class, 'destroy'])->name('colocation.destroy');
     Route::post('annulercolocation/{colocation}', [ColocationController::class, 'annulercolocation'])->name('annulercolocation');
     Route::post('quittercolocation/{colocation}', [ColocationController::class, 'quittercolocation'])->name('quittercolocation');
+    Route::post('/addMembre/{colocation}',[UserController::class, 'addMembre'])->name('addMembre');
+    Route::get('/accept-invitation/{token}' ,[UserController::class ,'acceptInvitation'])->name('acceptInvitation');
+
+    Route::prefix('colocation/{colocation}')->group(function () {
+
+        Route::get('categories/create', [CategorieController::class, 'create'])
+            ->name('categories.create');
+
+        Route::post('categories', [CategorieController::class, 'store'])
+            ->name('categories.store');
+        Route::get('categories/{category}/show', [CategorieController::class, 'show'])
+            ->name('categories.show');
+
+        Route::get('categories/{category}/edit', [CategorieController::class, 'edit'])
+            ->name('categories.edit');
+
+        Route::put('categories/{category}', [CategorieController::class, 'update'])
+            ->name('categories.update');
+
+        Route::delete('categories/{category}', [CategorieController::class, 'destroy'])
+            ->name('categories.destroy');
+        Route::prefix('categories/{category}')->group(function(){
+            Route::get('depenses/create', [DepenseController::class, 'create'])
+            ->name('depenses.create');
+            Route::post('depenses', [DepenseController::class, 'store'])
+            ->name('depenses.store');
+        });
+
+    });
 });
 
 
-Route::post('/addMembre/{colocation}',[UserController::class, 'addMembre'])->name('addMembre');
-Route::get('/accept-invitation/{token}' ,[UserController::class ,'acceptInvitation'])->name('acceptInvitation');
 require __DIR__ . '/auth.php';
 
-
-Route::prefix('colocation/{colocation}')->group(function () {
-
-    Route::get('categories/create', [CategorieController::class, 'create'])
-        ->name('categories.create');
-
-    Route::post('categories', [CategorieController::class, 'store'])
-        ->name('categories.store');
-    Route::get('categories/{category}/show', [CategorieController::class, 'show'])
-        ->name('categories.show');
-
-    Route::get('categories/{category}/edit', [CategorieController::class, 'edit'])
-        ->name('categories.edit');
-
-    Route::put('categories/{category}', [CategorieController::class, 'update'])
-        ->name('categories.update');
-
-    Route::delete('categories/{category}', [CategorieController::class, 'destroy'])
-        ->name('categories.destroy');
-    Route::prefix('categories/{category}')->group(function(){
-        Route::get('depenses/create', [DepenseController::class, 'create'])
-        ->name('depenses.create');
-        Route::post('depenses', [DepenseController::class, 'store'])
-        ->name('depenses.store');
-    });
-
-});
 
 

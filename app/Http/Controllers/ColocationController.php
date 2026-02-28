@@ -33,7 +33,6 @@ class ColocationController extends Controller
      */
     public function store(StoreColocRequest $request)
     {
-        $validated =$request->validated();
         $colocationsActive = auth()->user()->colocations()
             ->where('colocations.is_active', 1)
             ->wherePivot('status', 'accepted')
@@ -45,9 +44,9 @@ class ColocationController extends Controller
         }
         DB::transaction(function () use ($request) {
             $colocation = Colocation::create([
-                'name' => $validated['name'],
-                'address'   =>$validated['address'],
-                'description'  =>$validated['description']
+                'name' => $request->name,
+                'address'   =>$request->address,
+                'description'  =>$request->description
             ]);
             Membership::create([
                 'user_id' => auth()->id(),
@@ -126,18 +125,30 @@ class ColocationController extends Controller
 
     public function quittercolocation(Colocation $colocation){
         $user_id = auth()->id();
+        $user=auth()->user();
         $membership = $colocation->users()
             ->where('user_id', $user_id)
             ->first();
+        //dd($membership);
 
         if (!$membership) {
             return back()->with('error', 'Vous n\'etes pas membre');
         }
-
+        $paiement =$user->paiement;
+        // dd($paiement->montant);
         $colocation->users()->updateExistingPivot($user_id, [
                 'status' => 'left',
                 'left_at' => now()
         ]);
+        if($paiement->montant > 0){
+
+            $user->increment('Reputation', 1);
+
+        }else{
+             $user->decrement('Reputation', 1);
+
+        }
+
 
         return back()->with('success', 'Operation effectue avec succes.');
     }

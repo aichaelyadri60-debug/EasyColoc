@@ -2,7 +2,61 @@
 
 @section('content')
 
+
 <div class="max-w-xl mx-auto px-4 py-10">
+    {{-- Messages --}}
+<div class="space-y-4">
+
+    {{-- Erreurs validation --}}
+    @if ($errors->any())
+        <div class="rounded-2xl border border-rose-200 bg-rose-50 p-5 shadow-sm">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-rose-100">
+                    ❌
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-rose-700 mb-2">
+                        Des erreurs sont survenues :
+                    </h3>
+                    <ul class="text-sm text-rose-600 space-y-1 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- Success --}}
+    @if (session('success'))
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-emerald-100">
+                    ✅
+                </div>
+                <p class="text-sm font-semibold text-emerald-700">
+                    {{ session('success') }}
+                </p>
+            </div>
+        </div>
+    @endif
+
+    {{-- Error --}}
+    @if (session('error'))
+        <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-100">
+                    ⚠️
+                </div>
+                <p class="text-sm font-semibold text-amber-700">
+                    {{ session('error') }}
+                </p>
+            </div>
+        </div>
+    @endif
+
+</div>
 
     {{-- ── Titre ───────────────────────────────────────────────── --}}
     <div class="mb-6">

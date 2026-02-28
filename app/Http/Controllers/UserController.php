@@ -106,8 +106,8 @@ class UserController extends Controller
         ->exists();
 
     if ($alreadyActive) {
-        return redirect()->route('dashboard')
-            ->with('error', 'Vous êtes déjà dans une colocation active.');
+        return redirect()->route('colocation.index')
+            ->with('error', 'Vous etes deja dans une colocation active.');
     }
 
     $membership->update([
@@ -115,7 +115,7 @@ class UserController extends Controller
         'token'  => null
     ]);
 
-    return redirect()->route('dashboard')
-        ->with('success', 'Invitation acceptée avec succès 🎉');
+    return redirect()->route('colocation.index')
+        ->with('success', 'Invitation acceptee avec succes ');
 }
 }
